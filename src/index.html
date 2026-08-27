@@ -1,0 +1,578 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body class="bg-white dark-mode-transition">
+    <nav
+      class="bg-white p-6 flex flex-wrap items-center justify-between gap-4 md:gap-6 relative"
+    >
+      <a href="./index.html" class="order-1 flex gap-3 items-end">
+        <img src="./icons/film.png" class="h-8" id="logo" />
+        <h3
+          class="site-title text-xl font-semibold tracking-tight text-zinc-900 leading-none"
+        >
+          Movie Explorer
+        </h3>
+      </a>
+
+      <!-- Desktop Nav Items -->
+      <div
+        id="desktopView"
+        class="desktop-nav-pill order-2 hidden md:flex items-center bg-zinc-50 border border-zinc-200 rounded-full px-1 py-1 gap-2"
+      >
+        <a
+          href="#"
+          class="nav-link active-link px-4 py-1.5 rounded-full text-sm transition-colors bg-white border border-zinc-200 font-medium text-zinc-800 hover:text-zinc-600"
+          >Home</a
+        >
+        <a
+          href="#"
+          class="nav-link px-4 py-1.5 rounded-full text-sm transition-colors text-zinc-500 hover:text-zinc-400"
+          >Movies</a
+        >
+        <a
+          href="#"
+          class="nav-link px-4 py-1.5 rounded-full text-sm transition-colors text-zinc-500 hover:text-zinc-400"
+          >Tv Shows</a
+        >
+        <a
+          href="#"
+          class="nav-link px-4 py-1.5 rounded-full text-sm transition-colors text-zinc-500 hover:text-zinc-400"
+          >Watchlist</a
+        >
+      </div>
+
+      <!-- Search bar + Theme toggle + Profile -->
+      <div
+        id="searchGroup"
+        class="search-group order-3 flex items-center gap-3"
+      >
+        <div class="search-bar-wrap relative">
+          <label
+            class="search-bar w-full flex items-center gap-2.5 bg-zinc-100 border border-zinc-200 rounded-full pl-4 pr-2 py-2 cursor-text"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="shrink-0"
+            >
+              <path
+                d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667M14 14l-2.9-2.9"
+                stroke="#71717a"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+            <input
+              id="siteSearchInput"
+              type="text"
+              autocomplete="off"
+              placeholder="Search for movies..."
+              class="bg-transparent border-0 outline-none text-sm text-zinc-700 placeholder-zinc-400 w-full"
+            />
+            <span class="typing-dot shrink-0"></span>
+            <span
+              class="hidden md:inline-flex shrink-0 text-[11px] font-medium text-zinc-500 border border-zinc-300 rounded-md px-1.5 py-0.5"
+              >Ctrl K</span
+            >
+          </label>
+
+          <ul
+            id="searchSuggestions"
+            class="search-suggestions hidden absolute top-full left-0 right-0 mt-2 bg-white border border-zinc-200 rounded-2xl shadow-xl overflow-hidden z-50 py-1.5"
+          ></ul>
+        </div>
+
+        <button
+          onclick="toggleTheme()"
+          aria-label="Toggle dark mode"
+          class="theme-toggle-btn w-10 h-10 md:w-9 md:h-9 shrink-0 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center cursor-pointer"
+        >
+          <svg
+            class="theme-icon-moon"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14 9.187A6.333 6.333 0 1 1 6.813 2 5 5 0 0 0 14 9.187"
+              stroke="#27272a"
+              stroke-width="1.3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          <svg
+            class="theme-icon-sun hidden"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="8"
+              cy="8"
+              r="3"
+              stroke="#27272a"
+              stroke-width="1.3"
+            ></circle>
+            <path
+              d="M8 1.5v1.4M8 13.1v1.4M14.5 8h-1.4M2.9 8H1.5M12.6 3.4l-1 1M4.4 11.6l-1 1M12.6 12.6l-1-1M4.4 4.4l-1-1"
+              stroke="#27272a"
+              stroke-width="1.3"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+        </button>
+
+        <img id="profilePC"
+          src="./icons/user.png"
+          alt="Profile"
+          class="hidden md:block w-9 h-9 shrink-0 rounded-full object-cover border border-zinc-200"
+        />
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <button
+        id="hamburger"
+        onclick="toggleMenu()"
+        class="order-2 md:hidden flex flex-col gap-1.5 cursor-pointer bg-transparent border-0 p-1"
+      >
+        <span
+          id="bar1"
+          class="block w-6 h-0.5 bg-zinc-800 transition-transform"
+        ></span>
+        <span
+          id="bar2"
+          class="block w-6 h-0.5 bg-zinc-800 transition-opacity"
+        ></span>
+        <span
+          id="bar3"
+          class="block w-6 h-0.5 bg-zinc-800 transition-transform"
+        ></span>
+      </button>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobileMenu"
+        class="hidden absolute top-full left-0 w-full bg-white border-t border-zinc-200 flex-col p-5 gap-1 md:hidden z-50"
+      >
+        <a
+          href="#"
+          class="mobile-link active-link block px-4 py-2.5 rounded-lg text-sm bg-zinc-50 font-medium text-zinc-800"
+          >Home</a
+        >
+        <a
+          href="#"
+          class="mobile-link block px-4 py-2.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-50"
+          >Movies</a
+        >
+        <a
+          href="#"
+          class="mobile-link block px-4 py-2.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-50"
+          >Tv Shows</a
+        >
+        <a
+          href="#"
+          class="mobile-link block px-4 py-2.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-50"
+          >Watchlist</a
+        >
+
+        <a
+          href="#" id="profileMobile"
+          class="mobile-link block px-4 py-2.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-50"
+          >Profile</a
+        >
+        
+      </div>
+    </nav>
+
+    <script>
+      // Apply saved theme preference (or system preference) on load
+      const logo = document.getElementById("logo");
+      (function () {
+        const saved = localStorage.getItem("theme");
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (saved === "dark" || (!saved && prefersDark)) {
+          document.documentElement.classList.add("dark");
+        }
+        logo.src =
+          saved === "dark" ? "./icons/whiteFilm.png" : "./icons/film.png";
+      })();
+
+      function syncThemeIcons() {
+        const isDark = document.documentElement.classList.contains("dark");
+        document.querySelectorAll(".theme-icon-moon").forEach((el) => {
+          el.classList.toggle("hidden", isDark);
+        });
+        document.querySelectorAll(".theme-icon-sun").forEach((el) => {
+          el.classList.toggle("hidden", !isDark);
+        });
+      }
+
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        syncThemeIcons();
+        if (isDark) logo.src = "./icons/whiteFilm.png";
+        else logo.src = "./icons/film.png";
+      }
+
+      syncThemeIcons();
+
+      // Search group layout: detect whether it has actually wrapped onto
+      // its own line (rather than guessing via a fixed breakpoint), and
+      // size it accordingly. This avoids "dead zones" where the group
+      // wraps but is left stuck at its compact width.
+      (function () {
+        const group = document.getElementById("searchGroup");
+        const logoLink = document.querySelector("nav a[href='./index.html']");
+        if (!group || !logoLink) return;
+
+        function updateSearchGroupLayout() {
+          // Reset to the natural (compact) state before measuring. If we
+          // measure while "is-wrapped" is still applied, the group is
+          // still forced to width:100% from the previous check, which
+          // makes it look wrapped forever, even after the window grows
+          // back to full size — it can never correct itself.
+          group.classList.remove("is-wrapped");
+          const groupTop = group.getBoundingClientRect().top;
+          const logoTop = logoLink.getBoundingClientRect().top;
+          const wrapped = groupTop - logoTop > 4; // sits on a lower line
+          group.classList.toggle("is-wrapped", wrapped);
+        }
+
+        if ("ResizeObserver" in window) {
+          const nav = group.closest("nav");
+          new ResizeObserver(updateSearchGroupLayout).observe(nav);
+        } else {
+          window.addEventListener("resize", updateSearchGroupLayout);
+        }
+
+        window.addEventListener("load", updateSearchGroupLayout);
+        updateSearchGroupLayout();
+      })();
+
+      // Search bar typing feedback: bump the icon and show a pulsing
+      // dot while the user types, fading out shortly after they stop.
+      document.querySelectorAll(".search-bar").forEach((bar) => {
+        const input = bar.querySelector("input");
+        const icon = bar.querySelector("svg:first-of-type");
+        const dot = bar.querySelector(".typing-dot");
+        let typingTimeout;
+
+        if (!input) return;
+
+        input.addEventListener("input", () => {
+          if (icon) {
+            icon.classList.remove("icon-bump");
+            void icon.offsetWidth; // restart animation
+            icon.classList.add("icon-bump");
+          }
+          if (dot) {
+            dot.classList.add("is-visible");
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+              dot.classList.remove("is-visible");
+            }, 700);
+          }
+        });
+      });
+
+      let menuOpen = false;
+      function toggleMenu() {
+        menuOpen = !menuOpen;
+        const menu = document.getElementById("mobileMenu");
+        const bar1 = document.getElementById("bar1");
+        const bar2 = document.getElementById("bar2");
+        const bar3 = document.getElementById("bar3");
+        if (menuOpen) {
+          menu.classList.remove("hidden");
+          menu.classList.add("flex");
+          bar1.classList.add("rotate-45", "translate-y-2");
+          bar2.classList.add("opacity-0");
+          bar3.classList.add("-rotate-45", "-translate-y-2");
+        } else {
+          menu.classList.add("hidden");
+          menu.classList.remove("flex");
+          bar1.classList.remove("rotate-45", "translate-y-2");
+          bar2.classList.remove("opacity-0");
+          bar3.classList.remove("-rotate-45", "-translate-y-2");
+        }
+      }
+    </script>
+
+    <div id="homepage">
+      <section
+        id="trendingHero"
+        class="px-4 md:px-6 lg:px-8 mt-6"
+        data-current="0"
+      ></section>
+
+      <section class="popular-movies px-4 md:px-6 lg:px-8 mt-10 md:mt-12">
+        <div class="mb-4 flex items-center justify-between md:mb-5">
+          <h2 class="text-lg font-bold text-zinc-900 md:text-xl">
+            Popular Movies
+          </h2>
+          <a
+            href="#"
+            class="view-all-link text-sm font-medium text-amber-600 transition-colors hover:text-amber-700"
+            >View all</a
+          >
+        </div>
+
+        <div
+          class="grid grid-cols-3 gap-3 md:grid-cols-6 md:gap-5"
+          id="popularMoviesCards"
+        ></div>
+      </section>
+
+      <section class="popular-movies px-4 md:px-6 lg:px-8 mt-10 md:mt-12">
+        <div class="mb-4 flex items-center justify-between md:mb-5">
+          <h2 class="text-lg font-bold text-zinc-900 md:text-xl">
+            Popular Tv Series
+          </h2>
+          <a
+            href="#"
+            class="view-all-link text-sm font-medium text-amber-600 transition-colors hover:text-amber-700"
+            >View all</a
+          >
+        </div>
+
+        <div
+          class="grid grid-cols-3 gap-3 md:grid-cols-6 md:gap-5"
+          id="popularTvShowsCards"
+        ></div>
+      </section>
+    </div>
+
+    <div id="moviesPage" class="hidden px-4 md:px-6 lg:px-8 mt-6 mb-14">
+      <!-- Page header -->
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1
+            class="movies-page-title text-2xl md:text-3xl font-bold text-zinc-900"
+          >
+            Movies
+          </h1>
+          <p class="movies-page-subtitle mt-1 text-sm text-zinc-500">
+            Explore thousands of movies across all genres.
+          </p>
+        </div>
+      </div>
+
+      <!-- Category tabs -->
+      <div
+        id="moviesCategoryTabs"
+        class="movie-tabs mt-5 flex items-center gap-2 overflow-x-auto pb-1"
+      >
+        <button
+          type="button"
+          data-category="now-playing"
+          class="movie-tab is-active"
+        >
+          Now Playing
+        </button>
+        <button type="button" data-category="popular" class="movie-tab">
+          Popular
+        </button>
+        <button type="button" data-category="top-rated" class="movie-tab">
+          Top Rated
+        </button>
+        <button type="button" data-category="upcoming" class="movie-tab">
+          Upcoming
+        </button>
+      </div>
+
+      <!-- Movie grid -->
+      <div
+        id="moviesPageGrid"
+        class="grid grid-cols-3 gap-3 md:grid-cols-6 md:gap-5 mt-6"
+      ></div>
+
+      <!-- Pagination -->
+      <div
+        id="moviesPagination"
+        class="movie-pagination mt-8 flex flex-wrap items-center justify-center gap-1.5"
+        data-total-pages=""
+      >
+        <button
+          type="button"
+          class="page-btn page-arrow"
+          id="pagePrevBtn"
+          aria-label="Previous page"
+          disabled
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 3 5 8l5 5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        
+        <span class="page-ellipsis" id="OnPageMovies">Page 1</span>
+        
+
+        <button
+          type="button"
+          class="page-btn page-arrow"
+          id="pageNextBtn"
+          aria-label="Next page"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 3l5 5-5 5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="TvSeriesPage" class="hidden px-4 md:px-6 lg:px-8 mt-6 mb-14">
+      <!-- Page header -->
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1
+            class="movies-page-title text-2xl md:text-3xl font-bold text-zinc-900"
+          >
+            TV Shows
+          </h1>
+          <p class="movies-page-subtitle mt-1 text-sm text-zinc-500">
+            Explore thousands of TV shows across all genres.
+          </p>
+        </div>
+      </div>
+
+      <!-- Category tabs -->
+      <div
+        id="tvSeriesCategoryTabs"
+        class="movie-tabs mt-5 flex items-center gap-2 overflow-x-auto pb-1"
+      >
+        <button
+          type="button"
+          data-category="popular"
+          class="movie-tab is-active"
+        >
+          Popular
+        </button>
+        <button type="button" data-category="top-rated" class="movie-tab">
+          Top Rated
+        </button>
+        <button type="button" data-category="airing-today" class="movie-tab">
+          Airing Today
+        </button>
+        <button type="button" data-category="on-the-air" class="movie-tab">
+          On the Air
+        </button>
+      </div>
+
+      <!-- Shows grid -->
+      <div
+        id="tvSeriesGrid"
+        class="grid grid-cols-3 gap-3 md:grid-cols-6 md:gap-5 mt-6"
+      ></div>
+
+      <!-- Pagination -->
+      <div
+        id="tvSeriesPagination"
+        class="movie-pagination mt-8 flex flex-wrap items-center justify-center gap-1.5"
+        data-total-pages=""
+      >
+        <button
+          type="button"
+          class="page-btn page-arrow"
+          id="tvPagePrevBtn"
+          aria-label="Previous page"
+          disabled
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 3 5 8l5 5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <span class="page-ellipsis" id="OnPageShows">Page 1</span>
+
+        <button
+          type="button"
+          class="page-btn page-arrow"
+          id="tvPageNextBtn"
+          aria-label="Next page"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 3l5 5-5 5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="FavoritesPage" class="hidden px-4 md:px-6 lg:px-8 mt-6 mb-14">
+      <div
+        id="WatchlistPageGrid"
+        class="grid grid-cols-3 gap-3 md:grid-cols-6 md:gap-5 mt-6"
+      ></div>
+    </div>
+
+    <script src="./homePage.js" type="module"></script>
+    <script src="./movies.js" type="module"></script>
+    <script src="./tvSeries.js" type="module"></script>
+    <script src="./favorites.js" type="module"></script>
+  </body>
+</html>
